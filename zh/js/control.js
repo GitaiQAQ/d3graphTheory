@@ -141,8 +141,8 @@ function loadContent(query){
 		$("#below-app .next").addClass("hidden");
 
 	//load app styling
-	$("head").append('<link href="/ch/' + query + '/' + currentChap["style"] + '" rel="stylesheet">');
+	$("head").append('<link href="../ch/' + query + '/' + currentChap["style"] + '" rel="stylesheet">');
 
 	//load app script
-	$("body").append('<script type="text/javascript" src="/ch/' + query + '/' + currentChap["script"] + '"></script>');
+	$("body").append('<script type="text/javascript" src="../ch/' + query + '/' + currentChap["script"] + '"></script>');
 }

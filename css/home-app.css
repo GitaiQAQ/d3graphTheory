@@ -14,7 +14,7 @@ body {
 	min-width: 640px;
 	font-size: 16px;
 	line-height: 1.5;
-	font-family: "Open Sans", "Microsoft YaHei",Verdana,Arial,Helvetica,sans-serif;
+	font-family: "Open Sans", sans-serif;
 }
 
 a {
@@ -28,8 +28,8 @@ a:hover {
 }
 
 svg {
-  display: block;
-  margin:auto;
+	display: block;
+	margin:auto;
 }
 
 line {
@@ -63,16 +63,16 @@ body::-webkit-scrollbar-thumb {
 }
 
 #home-container > .container {
-		padding-bottom: 40px;
+	padding-bottom: 40px;
 }
 
 #home-navbar {
 	margin-bottom: 0;
 	border-bottom: 1px solid #ccc;
 	-webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  transition: all 0.2s linear;
+	-moz-transition: all 0.2s linear;
+	-o-transition: all 0.2s linear;
+	transition: all 0.2s linear;
 }
 
 #home-navbar.transparent {
@@ -100,18 +100,18 @@ body::-webkit-scrollbar-thumb {
 }
 .navbar-nav > li {
 	float:none;
-  display:inline-block;
+	display:inline-block;
 }
 .navbar-nav > li > a {
-  padding-top: 15px;
-  padding-bottom: 15px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 .navbar-nav > li.open > ul.dropdown-menu {
-  position: absolute;
-  border: 1px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	position: absolute;
+	border: 1px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
 /*navbar fixed*/
 
@@ -196,20 +196,20 @@ body::-webkit-scrollbar-thumb {
 
 .quote::before {
 	color: #ccc;
-  content: open-quote;
-  font-size: 3em;
-  line-height: 0.1em;
-  margin-right: 0.1em;
-  vertical-align: -0.4em;
+	content: open-quote;
+	font-size: 3em;
+	line-height: 0.1em;
+	margin-right: 0.1em;
+	vertical-align: -0.4em;
 }
 
 .quote::after {
 	color: #ccc;
-  content: close-quote;
-  font-size: 3em;
-  line-height: 0.1em;
-  margin-left: 0.1em;
-  vertical-align: -0.4em;
+	content: close-quote;
+	font-size: 3em;
+	line-height: 0.1em;
+	margin-left: 0.1em;
+	vertical-align: -0.4em;
 }
 
 .quote-cite {
@@ -392,12 +392,12 @@ div.donation-target {
 /*arrow ends*/
 
 ul.share-buttons{
-  list-style: none;
-  padding: 0;
+	list-style: none;
+	padding: 0;
 }
 
 ul.share-buttons li{
-  display: inline;
+	display: inline;
 }
 
 #share ul.share-buttons li {
@@ -409,42 +409,42 @@ ul.share-buttons li{
 }
 
 #myFooter {
-    background-color: #272822;
-    color: white;
-    font-size: 14px;
-    line-height: 1.42;
+	background-color: #272822;
+	color: white;
+	font-size: 14px;
+	line-height: 1.42;
 }
 
 #myFooter .first-bar .row {
-    padding-top: 20px;
-    padding-bottom: 60px;
+	padding-top: 20px;
+	padding-bottom: 60px;
 }
 
 #myFooter ul {
-    list-style-type: none;
-    padding-left: 0;
-    line-height: 1.7;
+	list-style-type: none;
+	padding-left: 0;
+	line-height: 1.7;
 }
 
 #myFooter h5 {
-    font-size: 18px;
-    color: white;
-    font-weight: bold;
-    margin-top: 30px;
+	font-size: 18px;
+	color: white;
+	font-weight: bold;
+	margin-top: 30px;
 }
 
 #myFooter a {
-    color: #aaa;
-    text-decoration: none;
+	color: #aaa;
+	text-decoration: none;
 }
 
 #myFooter a:hover,
 #myFooter a:focus {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 #myFooter .second-bar {
-    background-color: #33373e;
+	background-color: #33373e;
 }
 
 #myFooter .second-bar .row > div {
@@ -455,18 +455,18 @@ ul.share-buttons li{
 
 #myFooter .second-bar .logo{
 	font-size: 28px;
-  font-weight: bold;
-  padding-right: 12px;
-  border-right: solid 1px #888;
-  line-height: 30px;
+	font-weight: bold;
+	padding-right: 12px;
+	border-right: solid 1px #888;
+	line-height: 30px;
 }
 
 #myFooter .second-bar .logo a{
-    color:white;
+	color:white;
 }
 
 #myFooter .second-bar a:hover {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 #myFooter .second-bar .copyright {
@@ -474,7 +474,7 @@ ul.share-buttons li{
 }
 
 @media screen and (max-width: 991px) {
-    #myFooter .second-bar {
-        text-align: center;
-    }
+	#myFooter .second-bar {
+		text-align: center;
+	}
 }

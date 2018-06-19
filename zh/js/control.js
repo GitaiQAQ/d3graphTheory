@@ -115,6 +115,8 @@ function loadContent(query){
 	
 	var currentChap = contentData[query];
 
+    document.title = currentChap["content-title"] + " - D3 与图论";
+
 	//initially: status -> not hidden; app, footer -> hidden
 	$("#status-container").toggleClass("hidden");
 	$("#app-container").toggleClass("hidden");

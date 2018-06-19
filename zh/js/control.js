@@ -14,7 +14,7 @@ $(document).ready(function(){
 	if(query.length>1){
 		query = query.substr(1);
 		if(!contentData)
-			$("#status-container h1").text("Error!! The page doesn't exist.");
+			$("#status-container h1").text("错误！！页面不存在。");
 		else if(contentData.hasOwnProperty(query))
 			loadContent(query);
 		else
@@ -78,9 +78,9 @@ $(document).ready(function(){
 	$(".toggle-link").click(function(){
 		$(this).next(".toggle-content").slideToggle();
 		if($(this).hasClass("target-hidden"))
-			$(this).text("Click to Hide");
+			$(this).text("点击隐藏");
 		else
-			$(this).text("Click to Show");
+			$(this).text("点击显示");
 		$(this).toggleClass("target-hidden");
 	});
 

@@ -170,6 +170,52 @@ body::-webkit-scrollbar-thumb {
 	line-height: 1.2;
 }
 
+#share-wrap-top a {
+	margin-left: 5px;
+	color:#fff;
+	font-size:11px;
+	text-decoration:none;
+	padding:3px 8px;
+	border-radius: 4px;
+}
+
+#share-wrap-top a i {
+	font-size: 1.2em;
+}
+
+#share-wrap-top a:hover {
+	background-color: #888 !important;
+}
+
+.quote-wrap {
+	border-left: 10px solid #CCC;
+	padding: 10px;
+	background: #eaeaea;
+	margin-bottom: 20px;
+}
+
+.quote::before {
+	color: #ccc;
+  content: open-quote;
+  font-size: 3em;
+  line-height: 0.1em;
+  margin-right: 0.1em;
+  vertical-align: -0.4em;
+}
+
+.quote::after {
+	color: #ccc;
+  content: close-quote;
+  font-size: 3em;
+  line-height: 0.1em;
+  margin-left: 0.1em;
+  vertical-align: -0.4em;
+}
+
+.quote-cite {
+	text-align: right;
+}
+
 div.section-heading {
 	padding: 40px 0;
 }

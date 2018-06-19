@@ -1,30 +1,28 @@
 //node ids are in order in which nodes come in existence
 var nodes = [
-            {id: 1, degree:3,},
-            {id: 2, degree:3,},
-            {id: 3, degree:3,},
-            {id: 4, degree:3,},
-            {id: 5, degree:3,},
-            {id: 6, degree:3,},
+            {id: 1},
+            {id: 2},
+            {id: 3},
+            {id: 4},
+            {id: 5},
+            {id: 6},
+            {id: 7},
 ];
 
 var links = [
+            {source:0, target:1},
             {source:0, target:2},
-            {source:2, target:4},
-            {source:4, target:0},
             {source:1, target:3},
-            {source:3, target:5},
-            {source:5, target:1},
-            {source:0, target:3},
             {source:1, target:4},
             {source:2, target:5},
+            {source:3, target:6},
 ];
 
-//universal width and height let index.html control svg dimensions when needed
+//universal width and height let index.htm control svg dimensions when needed
 var lastNodeId = nodes.length;
 var w = univSvgWidth ? univSvgWidth : 616,
     h = univSvgHeight ? univSvgHeight :400,
-    rad = 14;
+    rad = 10;
 
 positionNodes();
 
@@ -47,11 +45,11 @@ var force = d3.layout.force()
             .nodes(nodes)
             .links(links)
             .size([w, h])
-            .linkDistance(80)
-            .linkStrength(1)
-            .charge(-550)
+            .linkDistance(60)
+            .linkStrength(0.9)
+            .charge(-500)
             .chargeDistance((w+h)/2)
-            .gravity(0.2)
+            .gravity(0.12)
             .on("tick",tick)
             .start();
 
@@ -61,7 +59,6 @@ var mousedownNode = null, mouseupNode = null;
 
 var clrBtn = d3.select("#clear-graph");
 clrBtn.on("click", clearGraph);
-
 
 function resetMouseVar(){
 	mousedownNode = null;
@@ -77,14 +74,9 @@ function clearGraph(){
   showGraphLatex();
 }
 
-//set initial positions for quick convergence
 function positionNodes(){
-  nodes.forEach(function(d, i) {
-    d.y = w / lastNodeId * i;
-    if(i%2==0)
-      d.x = d.y;
-    else
-      d.x = w - d.y;
+  nodes.forEach(function(d, i){
+    d.x = d.y = i*w/lastNodeId;
   });
 }
 
@@ -96,44 +88,37 @@ function tick() {
        .attr("x2", function(d) { return d.target.x; })
        .attr("y2", function(d) { return d.target.y; });
 
-  //here vertices are g.vertex elements
-  vertices.attr('transform', function(d) {
-    return 'translate(' + d.x + ',' + d.y + ')';
-  });
+  vertices.attr("cx", function(d) { return d.x; })
+       .attr("cy", function(d) { return d.y; });
 
 }
 
 function addNode(){
   if(d3.event.button==0){
     var coords = d3.mouse(this);
-    var newNode = {x:coords[0], y:coords[1], id: ++lastNodeId, degree:0,};
+    var newNode = {x:coords[0], y:coords[1], id: ++lastNodeId,};
     nodes.push(newNode);
     restart();
     showGraphLatex();
   }
 }
 
-//d is data, i is index according to selection
 function removeNode(d, i){
   //to make ctrl-drag works for mac/osx users
   if(d3.event.ctrlKey) return;
+  nodes.splice(nodes.indexOf(d),1);
   var linksToRemove = links.filter(function(l){
     return l.source===d || l.target===d;
   });
   linksToRemove.map(function(l) {
-    l.source.degree--;
-    l.target.degree--;
     links.splice(links.indexOf(l), 1);
   });
-  nodes.splice(nodes.indexOf(d),1);
   d3.event.preventDefault();
   restart();
   showGraphLatex();
 }
 
 function removeEdge(d, i){
-  d.source.degree--;
-  d.target.degree--;
   links.splice(links.indexOf(d),1);
   d3.event.preventDefault();
   restart();
@@ -141,9 +126,8 @@ function removeEdge(d, i){
 }
 
 function beginDragLine(d){
-  //event must propagate till g.vertex so that force.drag could work
-  //stop propagation at .vertex in restart() so that addNode isn't fired
-
+  //to prevent call of addNode through svg
+	d3.event.stopPropagation();
   //to prevent dragging of svg in firefox
 	d3.event.preventDefault();
 	if(d3.event.ctrlKey || d3.event.button!=0) return;
@@ -165,7 +149,7 @@ function hideDragLine(){
 	restart();
 }
 
-//no need to call hideDragLine in endDragLine
+//no need to call hideDragLine() and restart() in endDragLine
 //mouseup on vertices propagates to svg which calls hideDragLine
 function endDragLine(d){
 	if(!mousedownNode || mousedownNode===d) return;
@@ -176,8 +160,6 @@ function endDragLine(d){
 			return;
 		}
 	}
-  mousedownNode.degree++;
-  d.degree++;
 	var newLink = {source: mousedownNode, target:d};
 	links.push(newLink);
   showGraphLatex();
@@ -213,43 +195,27 @@ function restart(){
         .on("mousedown", function(){d3.event.stopPropagation();})
         .on("contextmenu", removeEdge)
         .append("title")
-        .text(function(d){return "v"+d.source.id+"-v"+d.target.id; });
+        .text(function(d){return "v"+d.source.id+"-v"+d.target.id;});
 
   edges.exit().remove();
 
   //vertices are known by id
   vertices = vertices.data(nodes, function(d){return d.id;});
 
-  //update degree
-  vertices.selectAll("text")
-          .text(function(d){return d.degree;});
-
-  var g = vertices.enter()
-                  .append("g")
-                  .attr("class", "vertex")
-                  //so that force.drag and addNode don't interfere
-                  //mousedown is initiated on circle which is stopped at .vertex
-                  .on("mousedown", function(){d3.event.stopPropagation();});
-
-  g.append("circle")
-    .attr("r", rad)
-    .style("fill", function(d,i){
-    	return colors(d.id);
-    })
-    .on("mousedown", beginDragLine)
-    .on("mouseup", endDragLine)
-    .on("contextmenu", removeNode)
-    .append("title")
-    .text(function(d){
-      return "v"+d.id;
-    });
-
-  g.append("text")
-    .attr("x", 0)
-    .attr("y", 4)
-    .text(function(d){
-      return d.degree;
-    });
+  vertices.enter()
+          .append("circle")
+          .attr("r", rad)
+          .attr("class", "vertex")
+          .style("fill", function(d,i){
+          	return colors(d.id);
+          })
+          .on("mousedown", beginDragLine)
+          .on("mouseup", endDragLine)
+          .on("contextmenu", removeNode)
+          .append("title")
+          .text(function(d){
+            return "v"+d.id;
+          });
 
   vertices.exit().remove();
   force.start();
@@ -269,35 +235,66 @@ d3.select(window)
 restart();
 showGraphLatex();
 
-//shows order and size of graph
-function showGraphLatex () {
-  var degSeq = nodes.map(function(v){return v.degree;});
-  //sort in decreasing order
-  degSeq.sort(function(a, b){return b-a;});
-  //test if graph is regular
-  var flag = false;
-  if(degSeq.length>0)
-    flag = true;
-  for(var i=0; i<degSeq.length-1; i++){
-    if(degSeq[i]!=degSeq[i+1]){
-      flag = false;
-      break;
-    }
-  }
-  var l = "\\[\\text{Degree Sequence}=(" ;
-  degSeq.forEach(function(d, i){
-    if(i !== degSeq.length-1)
-      l += d + ",";
-    else
-      l += d;
-    if(i%15 == 14)
-      l += "\\\\";
+function checkCycle(){
+
+  nodes.forEach(function(v){
+    v.visited = false;
   });
-  l += ")\\]";
-  if(flag){
-    l += "\\[\\text{Graph is \\(" + degSeq[0] +
-      "\\)-regular of order }" + degSeq.length + "\\]";
-  }
+
+  //construct adjacency list of graph
+  //vis keeps track of visited node ids
+  var adjList = {}, vis = {}, parent={};
+  nodes.forEach(function(v){
+    adjList[v.id]=[];
+    vis[v.id] = false;
+  });
+  links.forEach(function(e){
+    adjList[e.source.id].push(e.target.id);
+    adjList[e.target.id].push(e.source.id);
+  });
+
+  //perform DFS on nodes
+  var q = [nodes[0].id];
+  //-1 means root
+  parent[nodes[0].id] = -1;
+  var v1, v2;
+
+  while(q.length>0){
+    v1 = q.shift();
+    vis[v1] = true;
+    for(var i=0; i<adjList[v1].length; i++){
+      v2 = adjList[v1][i];
+      if(vis[v2] && parent[v1]!=v2) return true;
+      if(!vis[v2]){
+        q.push(v2);
+        parent[v2] = v1;
+      }
+    }
+
+    //check for other components
+    if(q.length==0){
+      for(var v in vis){
+        if(!vis[v]){
+          q.push(v);
+          parent[v] = -1;
+          break;
+        }
+      }
+    }
+  }//while ends here
+
+  return false;
+}
+
+//handling output area
+function showGraphLatex () {
+  var l = "";
+
+  if(nodes.length==0) l = "\\[\\text{Null Graph. Draw something.}\\]";
+  else if(checkCycle()) l = "\\[\\text{There is cycle. Remove it.}\\]";
+  else if(nodes.length==links.length+1) l = "\\[\\text{It's a tree with } |V|="+nodes.length+", |E|="+links.length+"\\]";
+  else l = "\\[\\text{This is a forest.}\\]";
+
   document.getElementById("svg-output").textContent = l;
   //recall mathjax
   MathJax.Hub.Queue(["Typeset",MathJax.Hub]);

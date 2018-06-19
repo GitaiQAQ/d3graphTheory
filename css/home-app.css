@@ -147,8 +147,8 @@ body::-webkit-scrollbar-thumb {
 /*intro-container must have same width as home-graph*/
 #intro-container {
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	pointer-events: none;
@@ -271,7 +271,7 @@ div.faq-entry {
 
 #content-list .list-wrap:hover {
 	background-color: #1f77b4;
-	box-shadow: 0 3px 3px rgba(13, 26, 44, 0.23), 0 2px 2.9px 0.1px rgba(13, 26, 44, 0.16), 0 0px 3px rgba(13, 26, 44, 0.15)
+	box-shadow: 0 3px 3px rgba(13, 26, 44, 0.23), 0 2px 2.9px 0.1px rgba(13, 26, 44, 0.16), 0 0 3px rgba(13, 26, 44, 0.15)
 }
 
 #content-list .list-wrap:hover .list-counter {
